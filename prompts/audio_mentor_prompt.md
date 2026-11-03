@@ -1,6 +1,6 @@
 # 🎙️ Audio Mentor Prompt (pro pole Customize v NotebookLM)
 
-Tento prompt zkopírujte do pole **Audio Overview → Customize (Přizpůsobit)** v Google NotebookLM. Na konec promptu vložte konkrétní téma z vygenerovaného kurikula.
+Tento prompt zkopírujte do pole **Audio Overview → Customize (Přizpůsobit)** v Google NotebookLM. V nastavení přizpůsobení **zaškrtněte jazyk: Čeština (Czech)** a jinak nic dalšího neměňte. Na konec promptu vložte konkrétní téma z vygenerovaného kurikula.
 
 ---
 

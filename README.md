@@ -50,7 +50,7 @@ Agent se vás v češtině zeptá na to podstatné:
 - **Co přesně se chcete naučit** (konkrétní předmět, technologie, obor, certifikace, jazyk).
 - **Jaká je vaše současná úroveň** (úplný začátečník vs. mírně pokročilý).
 - **Jaký je váš cíl** (maturita/zkouška, pracovní pohovor, praktický projekt).
-- **Vlastní materiály:** Můžete do chatu vložit skripta, školní osnovu, poznámky nebo odkazy.
+- **Vlastní materiály (volitelné):** Můžete vložit skripta, školní osnovu, poznámky či články. **Pokud nemáte vůbec nic, nevadí** – systém si vše dohledá sám.
 
 ### 2. Vygenerování řídicích souborů
 Agent na základě vašich odpovědí vygeneruje dva soubory:
@@ -62,15 +62,18 @@ Otevřete [notebooklm.google.com](https://notebooklm.google.com) (zdarma s Googl
 
 ### 4. 🔍 Klíčový trik: Search & Import zdrojů přímo v NotebookLM
 Nemusíte trávit hodiny sháněním učebnic:
-1. Z vygenerovaného kurikula vezmete **Téma 1** (včetně podbodů) a zkopírujete jej.
-2. V NotebookLM kliknete na **Přidat zdroj (+)** → **Vyhledat na webu (Web search)**.
-3. Vložíte téma, necháte NotebookLM najít odborné podklady a kliknete na **Importovat do zdrojů**.
-4. Zopakujete pro Téma 2, 3 atd. Tím získá váš sešit neprůstřelnou faktickou základnu pro každou kapitolu.
+1. V levém panelu u zdrojů kliknete na ikonku **Vyhledat na webu nové zdroje** (nebo *Přidat zdroj → Vyhledat na webu*).
+2. Z vygenerovaného kurikula vezmete **Téma 1** (včetně podbodů), vložíte ho do vyhledávání a kliknete na **Vyhledat**.
+3. Následně kliknete na **Importovat** pro přidání nalezených materiálů.
+4. 💡 *Poznámka:* Pokud jsou některé zdroje zabarvené **červeně**, vůbec to nevadí a nemusíte to řešit.
+5. 💡 *Tip:* Nemusíte to dělat hned pro všechna témata dopředu – stačí mít stažené zdroje vždy pro to téma, ze kterého chcete právě generovat audio lekci.
 
 ### 5. 🎧 Servírování audio lekcí (Lekce po lekci)
 Agent vám naservíruje hotový prompt přímo pro **Lekci 1**:
-- Zkopírujete prompt do pole **Audio Overview → Přizpůsobit (Customize)** v NotebookLM.
-- Během pár minut vznikne interaktivní podcastová diskuse dvou mentorů, kteří probírají přesně vaše téma, vysvětlují *proč a jak* věci fungují a reagují na vaše konkrétní otázky z profilu.
+- V pravém panelu NotebookLM u **Audio Overview (Audio přehled)** kliknete na **Přizpůsobit (Customize)**.
+- **Zaškrtnete jazyk: Čeština.** Jinak nic neměníte!
+- Vložíte zkopírovaný prompt od agenta a kliknete na **Vygenerovat (Generate)**.
+- Během 2–4 minut vznikne interaktivní podcastová diskuse dvou mentorů, kteří probírají přesně vaše téma, vysvětlují *proč a jak* věci fungují a reagují na vaše konkrétní otázky z profilu.
 - Po poslechu napíšete agentovi: *„Mám hotovo / Dej mi další“*. Agent vám okamžitě připraví **Lekci 2**, která začíná rekapitulací a přirozeně navazuje.
 
 ### 6. 🗂️ Bonus: Active Recall kartičky na vyzkoušení

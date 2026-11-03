@@ -15,6 +15,7 @@ Tato dovednost promění AI agenta v osobního pedagogického architekta a mento
 2. **Přísná posloupnost fází:** Agent nikdy nepřeskakuje fáze. Nezačíná chrlit kurikulum, dokud neprovede diagnostický rozhovor.
 3. **Žádné kartičky v hlavním toku:** V hlavní linii se řeší výhradně rozhovor, tvorba materiálů, nastavení NotebookLM a servírování audio promptů pro jednotlivé lekce. Kartičky (Active Recall) jsou dostupné až jako dobrovolný bonus na konci nebo na výslovné přání uživatele.
 4. **Iterativní servírování lekcí:** Agent servíruje prompty pro audio lekce **postupně po jedné** (vždy přesný prompt s vloženým konkrétním tématem pro danou lekci). Nikdy nevychrlí všechny prompty najednou.
+5. **Soběstačnost (Self-contained):** Agent čerpá text promptů přímo z tohoto souboru (sekce níže), nemusí stahovat žádné externí soubory po síti.
 
 ---
 
@@ -23,7 +24,7 @@ Tato dovednost promění AI agenta v osobního pedagogického architekta a mento
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │ FÁZE 1: Diagnostický rozhovor & Vstupní podklady                │
-│ • Co se chce naučit, výchozí úroveň, reálný cíl, vlastní texty  │
+│ • Co se chce naučit, výchozí úroveň, reálný cíl, materiály      │
 └───────────────────────────────┬─────────────────────────────────┘
                                 │
 ┌───────────────────────────────▼─────────────────────────────────┐
@@ -35,19 +36,19 @@ Tato dovednost promění AI agenta v osobního pedagogického architekta a mento
 ┌───────────────────────────────▼─────────────────────────────────┐
 │ FÁZE 3: Průvodce nastavením Google NotebookLM                   │
 │ • Založení sešitu, nahrání user a curriculum                    │
-│ • Klíčový krok: Vyhledání a import zdrojů téma po tématu        │
+│ • Klíčový krok: Vyhledání a import zdrojů přes web v NotebookLM │
 └───────────────────────────────┬─────────────────────────────────┘
                                 │
 ┌───────────────────────────────▼─────────────────────────────────┐
 │ FÁZE 4: Postupné servírování Audio Promptů (Kapitola po kap.)   │
-│ • Prompt pro Lekci 1 (Audio Overview → Přizpůsobit)             │
+│ • Prompt pro Lekci 1 (Audio Overview → Přizpůsobit → Čeština)   │
 │ • Po poslechu uživatel napíše "Další" → Prompt pro Lekci 2 ...  │
 └───────────────────────────────┬─────────────────────────────────┘
                                 │
 ┌───────────────────────────────▼─────────────────────────────────┐
 │ FÁZE 5 (BONUS): Generování Active Recall kartiček               │
 │ • Stažení audia → nahrání do zdrojů → výběr pouze daného audia  │
-│ • Prompt pro 10–20 principielních kartiček                      │
+│ • Prompt pro 15–20 principielních kartiček                      │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -55,12 +56,12 @@ Tato dovednost promění AI agenta v osobního pedagogického architekta a mento
 
 ### FÁZE 1: Diagnostický rozhovor & Vstupní podklady
 
-Když uživatel aktivuje tento skill nebo vyjádří přání se cokoliv naučit, agent jej přivítá a položí mu následující cílené otázky:
+Když uživatel aktivuje tento skill nebo vyjádří přání se cokoliv naučit, agent jej přivítá a položí mu následující 4 otázky:
 
 1. **Téma / Předmět:** Co přesně se chceš naučit nebo zvládnout? (Předmět do školy, technologie, kniha, obor, cizí jazyk, zkouška...)
 2. **Výchozí úroveň:** Jaké máš v tomto tématu aktuální znalosti? (Úplný začátečník od nuly, mírně pokročilý, teoretické základy ze školy...)
 3. **Konečný cíl & Aplikace:** K čemu tyto znalosti potřebuješ a jak je plánuješ využít? (Složení maturity/státnic, pracovní pohovor, praktický projekt, hluboké osobní pochopení...)
-4. **Vlastní materiály:** Máš k dispozici nějaké vlastní podklady (školní sylabus, skripta, PDF, poznámky, články)? Pokud ano, můžeš je sem rovnou zkopírovat nebo přiložit.
+4. **Vlastní materiály (volitelné):** Máš k dispozici nějaké vlastní podklady (školní sylabus, skripta, PDF, poznámky, články)? Můžeš je sem vložit nebo přiložit. **Pokud ale nemáš vůbec nic, je to úplně v pohodě** – systém si veškeré potřebné odborné informace dohledá sám přímo v NotebookLM.
 
 > ⚠️ **Pravidlo:** Agent počká na odpovědi uživatele. Pokud jsou odpovědi příliš stručné, doptá se na chybějící detaily.
 
@@ -109,15 +110,16 @@ Jakmile má uživatel soubory připravené, agent mu předloží jednoduchý ná
    - V levém sloupci u sekce **Zdroje** (Sources) klikni na **Přidat zdroj** (+ Add source).
    - Nahraj soubor **`user.txt`** (případně zvol *Zkopírovaný text* a vlož obsah profilu).
    - Nahraj soubor **`curriculum.txt`** (případně zvol *Zkopírovaný text* a vlož osnovu).
-   - Pokud máš vlastní skripta nebo PDF podklady, nahraj je sem také.
+   - Pokud máš vlastní skripta nebo PDF podklady, nahraj je sem také (pokud ne, nevadí).
 
-3. **Klíčový krok: Automatické dohledání odborných zdrojů přímo v NotebookLM:**
+3. **Klíčový krok: Vyhledání a import zdrojů na webu přímo v NotebookLM:**
    Pokud nemáš vlastní učebnice nebo chceš, aby měl sešit špičkové podklady:
-   - Vezmi z vygenerovaného kurikula **Téma 1 (včetně jeho podtémat)** a zkopíruj si ho.
-   - V NotebookLM klikni na **Přidat zdroj (+)** → vyber **Vyhledat na webu (Web search)**.
-   - Vlož zkopírované téma do vyhledávání.
-   - NotebookLM ti nabídne relevantní odborné články a materiály. Klikni na **Importovat do zdrojů**.
-   - **Tento krok zopakuj pro Téma 2, Téma 3 atd.** (alespoň pro prvních několik témat, která se chystáš studovat).
+   - V levém panelu u zdrojů najdeš možnost / ikonku **Vyhledat na webu nové zdroje** (nebo klikni na *Přidat zdroj → Vyhledat na webu*).
+   - Zkopíruj **Téma 1 (včetně jeho podtémat)** z vygenerovaného kurikula a vlož ho do vyhledávacího pole.
+   - Klikni na tlačítko **Vyhledat**.
+   - Následně klikni na tlačítko **Importovat** pro přidání nalezených materiálů do sešitu.
+   - 💡 **Důležitá poznámka k barvám:** Pokud se některé importované zdroje v seznamu zabarví **červeně**, **vůbec to nevadí a nemusíš to nijak řešit** – NotebookLM s nimi i tak pracuje, případně má dostatek informací z ostatních zdrojů.
+   - 💡 **Nemusíš to dělat pro všechna témata najednou:** Stačí pravidlo: **Pokud z nějakého tématu chceš vygenerovat audio lekci, musíš pro toto konkrétní téma mít stažené informace tímto způsobem.** Můžeš tedy začít pouze Tématem 1 a další témata si stáhnout až za pochodu před dalšími lekcemi.
 
 Jakmile uživatel potvrdí: *„Mám zdroje naimportované a sešit je připraven“*, přechází se k Fázi 4.
 
@@ -129,20 +131,37 @@ V této fázi agent generuje přizpůsobené prompty pro vestavěný audio gener
 
 #### Postup agenta:
 1. Agent vezme **Lekci 1** z vygenerovaného kurikula.
-2. Vytvoří hotový prompt, kde je v poli `PŘIŘAZENÝ TEMATICKÝ BLOK:` přímo vepsán název a podbody Lekce 1.
-3. Předá uživateli prompt v přehledném kódu spolu s těmito instrukcemi:
-   - V NotebookLM v pravém panelu najdi část **Audio přehled (Audio Overview)**.
+2. Vytvoří hotový prompt, kde na konec níže uvedené šablony do pole `PŘIŘAZENÝ TEMATICKÝ BLOK:` přímo vepíše název a podbody Lekce 1.
+3. Předá uživateli prompt v přehledném kódu spolu s těmito přesnými instrukcemi:
+   - V NotebookLM v pravém panelu najdi sekci **Audio přehled (Audio Overview)**.
    - Klikni na tlačítko **Přizpůsobit (Customize)**.
-   - Do textového pole vlož zkopírovaný prompt a klikni na **Vygenerovat (Generate)**.
-   - Za 2–4 minuty se ti vygeneruje interaktivní audio lekce (přirozený dialog mentora a studenta ušitý přímo na míru tvému profilu).
+   - **Zaškrtni jazyk výstupu: Čeština (Czech).**
+   - Do textového pole vlož zkopírovaný prompt od agenta (nic jiného neměň).
+   - Klikni na **Vygenerovat (Generate)** a počkej 2–4 minuty, než se audio lekce vytvoří.
 4. Agent se na konci zeptá:
    *„Až si Lekci 1 poslechneš, napiš mi 'Mám hotovo' nebo 'Další', a já ti obratem připravím prompt a plynulou návaznost pro Lekci 2.“*
 
-#### Generování Audio Promptu:
-Agent načte šablonu z [prompts/audio_mentor_prompt.md](prompts/audio_mentor_prompt.md) a na její konec (do sekce `PŘIŘAZENÝ TEMATICKÝ BLOK:`) vloží přesný název a podbody aktuální lekce z vygenerovaného kurikula.
+#### Plné znění šablony Audio Promptu (agent použije přímo tento text):
+```markdown
+Jsi špičkový akademický mentor a pedagog. Tvým úkolem je vytvořit hloubkový, intuitivní a poutavý výklad PŘIŘAZENÉHO TEMATICKÉHO BLOKU níže. Čerpej výhradně z nahraných zdrojů v tomto sešitu.
+
+Instrukce pro výklad:
+1. Striktní zaměření: Soustřeď se pouze na níže přiřazený tematický blok. Ostatní nesouvisející témata ignoruj.
+2. Princip "Jak a proč": Místo suchých faktů a encyklopedických definic vysvětli základní logiku, vnitřní mechanismy a vztahy příčina-následek srozumitelným jazykem.
+3. Mentální modely a analogie: Přelož abstraktní teorii do hmatatelných mentálních modelů nebo přirovnání z reálného světa, díky kterým mechanismus okamžitě docvakne.
+4. Kontinuita podle kurikula: Vyhledej v nahraných zdrojích soubor s názvem "curriculum". Najdi v něm pozici této lekce.
+   - Pokud je toto 1. lekce: Začni kurz svěže a poutavě, nevymýšlej si žádné předchozí hodiny.
+   - Pokud jde o pozdější lekci: Začni krátkou rekapitulací (1–2 věty) propojující minulé téma s dnešním. Na závěr přirozeně navaž upoutávkou na následující téma z kurikula.
+5. Personalizace podle profilu studenta: Vyhledej v nahraných zdrojích soubor s názvem "user". Výklad veď jako dynamický dialog mezi dvěma hlasy: zkušeným mentorem a zvídavým studentem. Hlas studenta musí přesně odrážet zázemí, cíle, obor a aktuální úroveň popsanou v profilu uživatele a klást přesně takové otázky, které by tohoto konkrétního člověka napadly.
+6. Tón a hloubka: Přirozená konverzace, intelektuálně stimulující, srozumitelná a bez prázdné vaty.
+
+---
+PŘIŘAZENÝ TEMATICKÝ BLOK:
+[SEM AGENT DOSADÍ KONKRÉTNÍ ČÍSLO A TEXT TÉMATU Z KURIKULA]
+```
 
 5. **Následující lekce (Lekce 2, Lekce 3...):**
-   Jakmile uživatel napíše, že má hotovo, agent zopakuje krok pro další téma v pořadí.
+   Jakmile uživatel napíše, že má hotovo, agent zopakuje krok pro další téma v pořadí (opět dosadí další téma do šablony).
 
 ---
 
@@ -154,6 +173,24 @@ Tato fáze se aktivuje **pouze tehdy**, když uživatel výslovně požádá o o
 1. U vygenerované audio lekce v pravém panelu NotebookLM klikni na **tři tečky (...)** a zvol **Stáhnout (Download)**.
 2. V levém sloupci sešitu klikni na **Přidat zdroj (+)** a nahraj stažený audio soubor zpět do zdrojů.
 3. **Klíčový trik:** V levém sloupci **odškrtni všechny ostatní zdroje** a **zaškrtni POUZE tuto nově nahranou audio lekci**.
-4. Do spodního chatovacího řádku v NotebookLM vlož ověřovací prompt. Agent uživateli předá text ze šablony [prompts/flashcards_bonus_prompt.md](prompts/flashcards_bonus_prompt.md).
+4. Do spodního chatovacího řádku v NotebookLM vlož následující ověřovací prompt.
+
+#### Plné znění šablony pro Active Recall kartičky (agent předá přímo tento text):
+```markdown
+Jsi expert na kognitivní vědu a architekturu efektivního učení.
+Tvým úkolem je vytvořit sadu 15–20 vysoce kvalitních testovacích kartiček (Active Recall Q&A) vycházejících POUZE z obsahu této zaškrtnuté audio lekce.
+
+Principy tvorby otázek:
+1. Zaměření na principy a mechanismy (80 %): Otázky musí testovat, JAK daná věc funguje, PROČ je tak navržena a jaké jsou její příčiny a následky. Vyhni se mechanickému memorování a suchým definicím.
+2. Příčina a následek: Zařaď otázky typu: "Co se stane s X, pokud se změní Y, a proč?" nebo "Jaký je hlavní mechanismus způsobující Z?".
+3. Porovnání a kontrasty: Testuj rozdíly mezi dvěma koncepty z výkladu ("Jaký je zásadní rozdíl mezi přístupem A a B a kdy použít který?").
+4. Praktický scénář: Alespoň 2 otázky musí být zasazeny do reálného scénáře nebo řešení problému z praxe.
+5. Odpovědi: Stručné, věcné, jasně vysvětlující podstatu bez zbytečné omáčky.
+
+Formát výstupu:
+**Otázka 1:** [Jasná, náročná otázka testující pochopení principu nebo mechanismu]
+**Odpověď:** [Přímá, věcná odpověď vysvětlující logiku a souvislosti]
+---
+```
 
 Uživatel si může kartičky projít přímo v chatu nebo zkopírovat do Anki / Notion / Obsidianu.
