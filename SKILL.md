@@ -77,12 +77,12 @@ Jakmile má agent dostatek informací, vytvoří a uživateli předá dva samost
   - Čeho chce dosáhnout a proč je to pro něj důležité.
   - Aktuální úroveň porozumění a na jaké potenciální mezery si dát pozor.
   - Preferovaný tón, hloubka a forma výkladu (srozumitelné analogie, technická preciznost, praktické příklady).
-- **Instrukce pro uživatele:** Ulož si tento text do souboru s názvem **`user.txt`** (nebo si jej připrav ke vložení do NotebookLM).
+- **Instrukce pro uživatele:** Ulož si tento text do souboru s názvem **`user.txt`** (nebo si jej připrav ke vložení do NotebookLM). Vzor viz [templates/user_profile_template.md](templates/user_profile_template.md).
 
 #### 2. Blok: `# Curriculum`
 - Strukturovaná osnova obsahující **5 až 20 témat** (škáluje se podle požadované hloubky).
 - Používá ověřené akademické a oborové koncepty.
-- **Formát bloku:**
+- **Formát bloku:** (Vzor viz [templates/curriculum_template.md](templates/curriculum_template.md))
   ```markdown
   1. [Název hlavního tématu]
       [Podtéma A] – [Klíčový princip 1], [Klíčový mechanismus 2]
@@ -138,24 +138,8 @@ V této fázi agent generuje přizpůsobené prompty pro vestavěný audio gener
 4. Agent se na konci zeptá:
    *„Až si Lekci 1 poslechneš, napiš mi 'Mám hotovo' nebo 'Další', a já ti obratem připravím prompt a plynulou návaznost pro Lekci 2.“*
 
-#### Šablona Audio Promptu:
-```markdown
-Jsi špičkový akademický mentor a pedagog. Tvým úkolem je vytvořit hloubkový, intuitivní a poutavý výklad PŘIŘAZENÉHO TEMATICKÉHO BLOKU níže. Čerpej výhradně z nahraných zdrojů v tomto sešitu.
-
-Instrukce pro výklad:
-1. Striktní zaměření: Soustřeď se pouze na níže přiřazený tematický blok. Ostatní nesouvisející témata ignoruj.
-2. Princip "Jak a proč": Místo suchých faktů a encyklopedických definic vysvětli základní logiku, vnitřní mechanismy a vztahy příčina-následek srozumitelným jazykem.
-3. Mentální modely a analogie: Přelož abstraktní teorii do hmatatelných mentálních modelů nebo přirovnání z reálného světa, díky kterým mechanismus okamžitě docvakne.
-4. Kontinuita podle kurikula: Vyhledej v nahraných zdrojích soubor s názvem "curriculum". Najdi v něm pozici této lekce.
-   - Pokud je toto 1. lekce: Začni kurz svěže a poutavě, nevymýšlej si žádné předchozí hodiny.
-   - Pokud jde o pozdější lekci: Začni krátkou rekapitulací (1–2 věty) propojující minulé téma s dnešním. Na závěr přirozeně navaž upoutávkou na následující téma z kurikula.
-5. Personalizace podle profilu studenta: Vyhledej v nahraných zdrojích soubor s názvem "user". Výklad veď jako dynamický dialog mezi dvěma hlasy: zkušeným mentorem a zvídavým studentem. Hlas studenta musí přesně odrážet zázemí, cíle, obor a aktuální úroveň popsanou v profilu uživatele a klást přesně takové otázky, které by tohoto konkrétního člověka napadly.
-6. Tón a hloubka: Přirozená konverzace, intelektuálně stimulující, srozumitelná a bez prázdné vaty.
-
----
-PŘIŘAZENÝ TEMATICKÝ BLOK:
-[ZDE AGENT DOSADÍ KONKRÉTNÍ ČÍSLO A TEXT TÉMATU Z KURIKULA]
-```
+#### Generování Audio Promptu:
+Agent načte šablonu z [prompts/audio_mentor_prompt.md](prompts/audio_mentor_prompt.md) a na její konec (do sekce `PŘIŘAZENÝ TEMATICKÝ BLOK:`) vloží přesný název a podbody aktuální lekce z vygenerovaného kurikula.
 
 5. **Následující lekce (Lekce 2, Lekce 3...):**
    Jakmile uživatel napíše, že má hotovo, agent zopakuje krok pro další téma v pořadí.
@@ -170,24 +154,6 @@ Tato fáze se aktivuje **pouze tehdy**, když uživatel výslovně požádá o o
 1. U vygenerované audio lekce v pravém panelu NotebookLM klikni na **tři tečky (...)** a zvol **Stáhnout (Download)**.
 2. V levém sloupci sešitu klikni na **Přidat zdroj (+)** a nahraj stažený audio soubor zpět do zdrojů.
 3. **Klíčový trik:** V levém sloupci **odškrtni všechny ostatní zdroje** a **zaškrtni POUZE tuto nově nahranou audio lekci**.
-4. Do spodního chatovacího řádku v NotebookLM vlož následující ověřovací prompt.
-
-#### Prompt pro Active Recall kartičky:
-```markdown
-Jsi expert na kognitivní vědu a architekturu efektivního učení.
-Tvým úkolem je vytvořit sadu 15–20 vysoce kvalitních testovacích kartiček (Active Recall Q&A) vycházejících POUZE z obsahu této zaškrtnuté audio lekce.
-
-Principy tvorby otázek:
-1. Zaměření na principy a mechanismy (80 %): Otázky musí testovat, JAK daná věc funguje, PROČ je tak navržena a jaké jsou její příčiny a následky. Vyhni se mechanickému memorování a suchým definicím.
-2. Příčina a následek: Zařaď otázky typu: "Co se stane s X, pokud se změní Y, a proč?" nebo "Jaký je hlavní mechanismus způsobující Z?".
-3. Porovnání a kontrasty: Testuj rozdíly mezi dvěma koncepty z výkladu ("Jaký je zásadní rozdíl mezi přístupem A a B a kdy použít který?").
-4. Praktický scénář: Alespoň 2 otázky musí být zasazeny do reálného scénáře nebo řešení problému z praxe.
-5. Odpovědi: Stručné, věcné, jasně vysvětlující podstatu bez zbytečné omáčky.
-
-Formát výstupu:
-**Otázka 1:** [Jasná, náročná otázka testující pochopení principu nebo mechanismu]
-**Odpověď:** [Přímá, věcná odpověď vysvětlující logiku a souvislosti]
----
-```
+4. Do spodního chatovacího řádku v NotebookLM vlož ověřovací prompt. Agent uživateli předá text ze šablony [prompts/flashcards_bonus_prompt.md](prompts/flashcards_bonus_prompt.md).
 
 Uživatel si může kartičky projít přímo v chatu nebo zkopírovat do Anki / Notion / Obsidianu.

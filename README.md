@@ -20,13 +20,13 @@ Stačí do příkazové řádky zadat odkaz na toto repo:
 # V Claude Code nebo Antigravity:
 "Nainstaluj nebo spusť skill z https://github.com/jardaakarb/learning-system-agent"
 ```
-Agent si automaticky stáhne [SKILL.md](file:///c:/Users/Jaroslav/Desktop/myvault_apps/learning-system-agent/SKILL.md) a zahájí s vámi diagnostický rozhovor.
+Agent si automaticky stáhne [SKILL.md](SKILL.md) a zahájí s vámi diagnostický rozhovor.
 
 ### Možnost 2: V Cursor / Windsurf / GitHub Copilot
-Přidejte odkaz na repo nebo zkopírujte obsah [SKILL.md](file:///c:/Users/Jaroslav/Desktop/myvault_apps/learning-system-agent/SKILL.md) do systémového kontextu (např. do souboru `.cursorrules` nebo přímo do chatu).
+Přidejte odkaz na repo nebo zkopírujte obsah [SKILL.md](SKILL.md) do systémového kontextu (např. do souboru `.cursorrules` nebo přímo do chatu).
 
 ### Možnost 3: Přímo ve webovém chatu (ChatGPT, Claude, Gemini)
-Pokud nepoužíváte kódovacího agenta, otevřete soubor [SKILL.md](file:///c:/Users/Jaroslav/Desktop/myvault_apps/learning-system-agent/SKILL.md), zkopírujte jeho text a vložte jej jako první zprávu do chatu s AI. Ta se okamžitě začne chovat podle tohoto systému.
+Pokud nepoužíváte kódovacího agenta, otevřete soubor [SKILL.md](SKILL.md), zkopírujte jeho text a vložte jej jako první zprávu do chatu s AI. Ta se okamžitě začne chovat podle tohoto systému.
 
 ---
 
