@@ -115,11 +115,29 @@ Jakmile má uživatel soubory připravené, agent mu předloží jednoduchý ná
 3. **Klíčový krok: Vyhledání a import zdrojů na webu přímo v NotebookLM:**
    Pokud nemáš vlastní učebnice nebo chceš, aby měl sešit špičkové podklady:
    - V levém panelu u zdrojů najdeš možnost / ikonku **Vyhledat na webu nové zdroje** (nebo klikni na *Přidat zdroj → Vyhledat na webu*).
-   - Zkopíruj **Téma 1 (včetně jeho podtémat)** z vygenerovaného kurikula a vlož ho do vyhledávacího pole.
+   - Zkopíruj **Téma 1 (včetně jeho podtémat)** a vlož ho do vyhledávacího pole.
    - Klikni na tlačítko **Vyhledat**.
    - Následně klikni na tlačítko **Importovat** pro přidání nalezených materiálů do sešitu.
    - 💡 **Důležitá poznámka k barvám:** Pokud se některé importované zdroje v seznamu zabarví **červeně**, **vůbec to nevadí a nemusíš to nijak řešit** – NotebookLM s nimi i tak pracuje, případně má dostatek informací z ostatních zdrojů.
    - 💡 **Nemusíš to dělat pro všechna témata najednou:** Stačí pravidlo: **Pokud z nějakého tématu chceš vygenerovat audio lekci, musíš pro toto konkrétní téma mít stažené informace tímto způsobem.** Můžeš tedy začít pouze Tématem 1 a další témata si stáhnout až za pochodu před dalšími lekcemi.
+
+#### 📋 Povinnost agenta ve Fázi 3 (Příprava témat na jedno kliknutí):
+Při představení Fáze 3 agent **vypíše každé téma z vygenerovaného kurikula v samostatném markdown kódovém bloku** (code block ```).
+Díky tomu uživatel nemusí text složitě označovat myší, ale stačí mu v chatu kliknout na tlačítko **Zkopírovat (Copy)** a rovnou text vložit do vyhledávání v NotebookLM.
+
+Příklad výstupu agenta:
+> **Téma 1 pro vyhledání zdrojů (klikni na Zkopírovat):**
+> ```text
+> 1. [Název tématu 1]
+>     [Podtéma A] – [Klíčový princip 1], [Klíčový mechanismus 2]
+>     [Podtéma B] – [Klíčový princip 3] – [Konkrétní model nebo aplikace]
+> ```
+> 
+> **Téma 2 pro vyhledání zdrojů (klikni na Zkopírovat):**
+> ```text
+> 2. [Název tématu 2]
+>     ...
+> ```
 
 Jakmile uživatel potvrdí: *„Mám zdroje naimportované a sešit je připraven“*, přechází se k Fázi 4.
 

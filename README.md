@@ -62,11 +62,12 @@ Otevřete [notebooklm.google.com](https://notebooklm.google.com) (zdarma s Googl
 
 ### 4. 🔍 Klíčový trik: Search & Import zdrojů přímo v NotebookLM
 Nemusíte trávit hodiny sháněním učebnic:
-1. V levém panelu u zdrojů kliknete na ikonku **Vyhledat na webu nové zdroje** (nebo *Přidat zdroj → Vyhledat na webu*).
-2. Z vygenerovaného kurikula vezmete **Téma 1** (včetně podbodů), vložíte ho do vyhledávání a kliknete na **Vyhledat**.
-3. Následně kliknete na **Importovat** pro přidání nalezených materiálů.
-4. 💡 *Poznámka:* Pokud jsou některé zdroje zabarvené **červeně**, vůbec to nevadí a nemusíte to řešit.
-5. 💡 *Tip:* Nemusíte to dělat hned pro všechna témata dopředu – stačí mít stažené zdroje vždy pro to téma, ze kterého chcete právě generovat audio lekci.
+1. Agent vám při přechodu do této fáze vypíše každé téma v samostatném kódovém bloku – stačí kliknout na tlačítko **Zkopírovat (Copy)** u Tématu 1.
+2. V levém panelu NotebookLM u zdrojů kliknete na ikonku **Vyhledat na webu nové zdroje** (nebo *Přidat zdroj → Vyhledat na webu*).
+3. Vložíte zkopírované téma do vyhledávání a kliknete na **Vyhledat**.
+4. Následně kliknete na **Importovat** pro přidání nalezených materiálů.
+5. 💡 *Poznámka:* Pokud jsou některé zdroje zabarvené **červeně**, vůbec to nevadí a nemusíte to řešit.
+6. 💡 *Tip:* Nemusíte to dělat hned pro všechna témata dopředu – stačí mít stažené zdroje vždy pro to téma, ze kterého chcete právě generovat audio lekci.
 
 ### 5. 🎧 Servírování audio lekcí (Lekce po lekci)
 Agent vám naservíruje hotový prompt přímo pro **Lekci 1**:
