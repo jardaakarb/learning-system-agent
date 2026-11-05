@@ -34,10 +34,14 @@ Pokud nepoužíváte kódovacího agenta, otevřete soubor [SKILL.md](SKILL.md),
 
 ```mermaid
 flowchart TD
-    A["1. Diagnostický rozhovor\n(Cíl, úroveň, vlastní materiály)"] --> B["2. Vygenerování podkladů\n(user.txt a curriculum.txt)"]
+    A["1. Diagnostický rozhovor\n(Cíl, úroveň, volba režimu kurzu)"] --> A1{"Je to expertní / byznys téma?"}
+    A1 -- Ano --> A2["1.5 Expertní Pipeline\n(Deep research, YouTube transkripty, trendy za 30 dní)"]
+    A1 -- Standard --> B["2. Vygenerování podkladů\n(user.txt a curriculum.txt)"]
+    A2 --> B2["2. Vygenerování podkladů\n(user.txt, curriculum.txt + research.txt)"]
     B --> C["3. Google NotebookLM\n(Založení sešitu a import souborů)"]
-    C --> D["4. Search & Import zdrojů\n(Vyhledání podkladů přímo v NotebookLM)"]
-    D --> E["5. Iterativní Audio Lekce\n(Agent servíruje prompt pro Lekci 1, 2, 3...)"]
+    B2 --> C
+    C --> D["4. Search & Import zdrojů\n(Dohledání doplňků přímo v NotebookLM)"]
+    D --> E["5. Iterativní Audio Lekce\n(Agent servíruje prompt pro Lekci 1, 2, 3... 10–15 min)"]
     E --> F["6. Bonus: Active Recall Kartičky\n(Stažení audia -> zaškrtnutí -> testování)"]
 ```
 
@@ -45,17 +49,27 @@ flowchart TD
 
 ## 🚀 Krok za krokem: Co se bude dít
 
-### 1. Diagnostický rozhovor
+### 1. Diagnostický rozhovor & Volba režimu
 Agent se vás v češtině zeptá na to podstatné:
-- **Co přesně se chcete naučit** (konkrétní předmět, technologie, obor, certifikace, jazyk).
+- **Co přesně se chcete naučit** (školní předmět, certifikace, jazyk, nebo byznys téma jako monetizace AI agentů).
 - **Jaká je vaše současná úroveň** (úplný začátečník vs. mírně pokročilý).
-- **Jaký je váš cíl** (maturita/zkouška, pracovní pohovor, praktický projekt).
-- **Vlastní materiály (volitelné):** Můžete vložit skripta, školní osnovu, poznámky či články. **Pokud nemáte vůbec nic, nevadí** – systém si vše dohledá sám.
+- **Jaký je váš cíl** (maturita/zkouška, pracovní pohovor, vybudování příjmu z praxe).
+- **Volba režimu kurzu:**
+  - *Standardní režim:* Pro běžná akademická a teoretická témata.
+  - *Expertní režim (Deep Research):* Pro praktická, byznysová a technologická témata, kde nestačí obecná Wikipedie.
+
+### 1.5 🔬 Expertní režim: Deep Research Pipeline (Volitelný krok)
+Pokud jde o byznys nebo praktické téma (např. *jak vydělat na AI agentech*), agent nevaří osnovu z vody. Místo toho autonomně spustí řetězec specializovaných nástrojů:
+1. **Hloubkový webový scraping (`firecrawl-deep-research`):** Prozkoumá případové studie a technické blogy špičkových autorit.
+2. **Extrakce YouTube přepisů (`baoyu-youtube-transcript`):** Stáhne kompletní přepisy klíčových praktických masterclasses z YouTube.
+3. **Průzkum trhu za 30 dní (`last30days`):** Vytěží z komunit na Redditu a X aktuální fungující postupy a varování před chybami.
+4. **Master dokument `research.txt`:** Vše syntetizuje do 3 000 až 8 000+ slov konkrétního know-how z praxe (nabídky, ceny, stack, prodej).
 
 ### 2. Vygenerování řídicích souborů
-Agent na základě vašich odpovědí vygeneruje dva soubory:
-- **`user.txt` (User Profile):** Příběhový profil popisující vaše zázemí, cíle, slabá místa a preferovaný styl výkladu.
-- **`curriculum.txt` (Curriculum):** Strukturovaná osnova rozdělená do 5 až 20 témat, postavená na ověřených oborových konceptech.
+Agent na základě diagnostiky (a případného expertního researche) vygeneruje:
+- **`user.txt` (User Profile):** Příběhový profil popisující vaše zázemí, cíle a slabá místa.
+- **`curriculum.txt` (Curriculum):** Strukturovaná osnova rozdělená do 5 až 20 témat (v expertním režimu 100% ukotvená v `research.txt`).
+- **`research.txt` (pouze v expertním režimu):** Plná znalostní báze od světových špiček.
 
 ### 3. Založení sešitu v Google NotebookLM
 Otevřete [notebooklm.google.com](https://notebooklm.google.com) (zdarma s Google účtem), založíte nový sešit a nahrajete soubory `user.txt` a `curriculum.txt`.

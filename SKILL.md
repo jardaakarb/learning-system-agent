@@ -24,25 +24,33 @@ Tato dovednost promění AI agenta v osobního pedagogického architekta a mento
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │ FÁZE 1: Diagnostický rozhovor & Vstupní podklady                │
-│ • Co se chce naučit, výchozí úroveň, reálný cíl, materiály      │
+│ • Co se chce naučit, výchozí úroveň, cíl, volba režimu kurzu    │
+└───────────────────────────────┬─────────────────────────────────┘
+                                │
+┌───────────────────────────────▼─────────────────────────────────┐
+│ FÁZE 1.5 (EXPERTNÍ REŽIM): Hloubkový Research & Extrakce        │
+│ • Spuštění scraping skillu (firecrawl-deep-research)            │
+│ • Stažení YouTube transkriptů (baoyu-youtube-transcript)        │
+│ • Průzkum trendů za 30 dní (last30days)                         │
+│ • Vygenerování master souboru 'research.txt' (3 000–8 000+ slov)│
 └───────────────────────────────┬─────────────────────────────────┘
                                 │
 ┌───────────────────────────────▼─────────────────────────────────┐
 │ FÁZE 2: Generování 'user' a 'curriculum'                        │
 │ • Vygenerování User Profile (soubor user.txt)                   │
-│ • Vygenerování osnovy 5–20 témat (soubor curriculum.txt)        │
+│ • Vygenerování osnovy (curriculum.txt) ukotvené v researchi     │
 └───────────────────────────────┬─────────────────────────────────┘
                                 │
 ┌───────────────────────────────▼─────────────────────────────────┐
 │ FÁZE 3: Průvodce nastavením Google NotebookLM                   │
-│ • Založení sešitu, nahrání user a curriculum                    │
-│ • Klíčový krok: Vyhledání a import zdrojů přes web v NotebookLM │
+│ • Nahrání user, curriculum a research.txt                       │
+│ • Případné rychlé dohledání doplňkových zdrojů v sešitu         │
 └───────────────────────────────┬─────────────────────────────────┘
                                 │
 ┌───────────────────────────────▼─────────────────────────────────┐
 │ FÁZE 4: Postupné servírování Audio Promptů (Kapitola po kap.)   │
 │ • Prompt pro Lekci 1 (Audio Overview → Přizpůsobit → Čeština)   │
-│ • Po poslechu uživatel napíše "Další" → Prompt pro Lekci 2 ...  │
+│ • Po poslechu uživatel nahraje lekci do zdrojů a jde na Lekci 2 │
 └───────────────────────────────┬─────────────────────────────────┘
                                 │
 ┌───────────────────────────────▼─────────────────────────────────┐
@@ -56,20 +64,43 @@ Tato dovednost promění AI agenta v osobního pedagogického architekta a mento
 
 ### FÁZE 1: Diagnostický rozhovor & Vstupní podklady
 
-Když uživatel aktivuje tento skill nebo vyjádří přání se cokoliv naučit, agent jej přivítá a položí mu následující 4 otázky:
+Když uživatel aktivuje tento skill nebo vyjádří přání se cokoliv naučit, agent jej přivítá a položí mu následující otázky:
 
-1. **Téma / Předmět:** Co přesně se chceš naučit nebo zvládnout? (Předmět do školy, technologie, kniha, obor, cizí jazyk, zkouška...)
-2. **Výchozí úroveň:** Jaké máš v tomto tématu aktuální znalosti? (Úplný začátečník od nuly, mírně pokročilý, teoretické základy ze školy...)
-3. **Konečný cíl & Aplikace:** K čemu tyto znalosti potřebuješ a jak je plánuješ využít? (Složení maturity/státnic, pracovní pohovor, praktický projekt, hluboké osobní pochopení...)
-4. **Vlastní materiály (volitelné):** Máš k dispozici nějaké vlastní podklady (školní sylabus, skripta, PDF, poznámky, články)? Můžeš je sem vložit nebo přiložit. **Pokud ale nemáš vůbec nic, je to úplně v pohodě** – systém si veškeré potřebné odborné informace dohledá sám přímo v NotebookLM.
+1. **Téma / Předmět:** Co přesně se chceš naučit nebo zvládnout? (Předmět do školy, technologie, kniha, obor, certifikace, zkouška, nebo byznysové téma jako monetizace AI agentů...)
+2. **Výchozí úroveň:** Jaké máš v tomto tématu aktuální znalosti a jaké jsou tvé silné stránky? (Úplný začátečník od nuly, mírně pokročilý, technické základy...)
+3. **Konečný cíl & Aplikace:** K čemu tyto znalosti potřebuješ a jak je plánuješ využít? (Složení maturity/státnic, pracovní projekt, vybudování nového příjmu/byznysu, hluboké pochopení...)
+4. **Vlastní materiály (volitelné):** Máš k dispozici nějaké vlastní podklady (školní sylabus, skripta, PDF, poznámky, články)? Můžeš je sem vložit nebo přiložit. **Pokud ale nemáš vůbec nic, je to úplně v pohodě** – systém si veškeré potřebné informace dohledá sám.
+5. **Režim kurzu (Standardní vs. Expertní research):** Jde o standardní akademické téma, nebo o praktické / byznysové téma z reálného trhu, kde chceš, aby agent nejdříve provedl **hloubkový research nejlepších světových expertů a vytvořil ti detailní `research.txt`**?
 
 > ⚠️ **Pravidlo:** Agent počká na odpovědi uživatele. Pokud jsou odpovědi příliš stručné, doptá se na chybějící detaily.
 
 ---
 
+### FÁZE 1.5: Expertní rešerše trhu (Deep Expert Research Pipeline)
+*(Aktivuje se u byznysových, technologických a praktických témat, kde běžné znalosti nestačí)*
+
+V tomto režimu agent **nesmí generovat kurikulum z obecných teoretických pouček**. Místo toho zafunguje jako orchestrátor a aktivuje specializované nástroje v jejich plné, nezměněné podobě (se všemi Python skripty a CLI možnostmi):
+
+1. **Orchestrace specializovaných skillů:**
+   - **Hloubkový webový scraping:** Aktivuje skill `firecrawl-deep-research` pro detailní prozkoumání blogů, technických breakdownů, Substacků a GitHub studií klíčových autorit v oboru.
+   - **Extrakce YouTube přepisů:** Aktivuje skill `baoyu-youtube-transcript`, který stáhne plné, detailní přepisy nejlepších video masterclasses a praktických breakdownů (kde experti ukazují své systémy, obrazovky a reálná čísla).
+   - **Ověření trendů za posledních 30 dní:** Aktivuje skill `last30days`, který projede komunitní diskuze na Redditu a X (Twitteru), aby vytáhl nejčerstvější postupy, reálné zkušenosti a varování před slepými uličkami.
+
+2. **Vygenerování master souboru `research.txt`:**
+   Agent veškeré získané know-how syntetizuje do hutného, vysoce detailního dokumentu (3 000 až 8 000+ slov) s jasnými sekcemi:
+   - *Konkrétní nabídky (Offers), cenotvorba a byznys modely (reálná čísla z praxe)*
+   - *Technická architektura, ověřené nástroje a technologický stack*
+   - *Konkrétní postupy akvizice, distribuce a doručování klientům*
+   - *Kritická úskalí a chyby, kterým se vyhnout*
+   - *(Volitelně): Pokud je některé video nebo článek zásadní masterclass, agent jej uloží i jako samostatný plný přepis (např. `transkript-expert-1.txt`).*
+
+Instrukce pro uživatele: Ulož si tento text do souboru **`research.txt`** (spolu s případnými přepisy), nahrajeme ho společně do NotebookLM.
+
+---
+
 ### FÁZE 2: Generování User Profile a Curriculum
 
-Jakmile má agent dostatek informací, vytvoří a uživateli předá dva samostatné textové bloky:
+Jakmile má agent podklady (buď z diagnostiky, nebo z Fáze 1.5), vytvoří a uživateli předá dva samostatné textové bloky:
 
 #### 1. Blok: `# User Profile`
 - Syntéza informací o uživateli psaná plynulým přirozeným jazykem (nikoli suché odrážky).
@@ -82,7 +113,7 @@ Jakmile má agent dostatek informací, vytvoří a uživateli předá dva samost
 
 #### 2. Blok: `# Curriculum`
 - Strukturovaná osnova obsahující **5 až 20 témat** (škáluje se podle požadované hloubky).
-- Používá ověřené akademické a oborové koncepty.
+- **Zásada uzemnění:** Pokud proběhla Fáze 1.5, osnova je **100% ukotvena v materiálu `research.txt`** a mapuje konkrétní praktické techniky namísto suché teorie.
 - **Formát bloku:** (Vzor viz [templates/curriculum_template.md](templates/curriculum_template.md))
   ```markdown
   1. [Název hlavního tématu]
@@ -94,7 +125,7 @@ Jakmile má agent dostatek informací, vytvoří a uživateli předá dva samost
   ```
 - **Instrukce pro uživatele:** Ulož si tento text do souboru s názvem **`curriculum.txt`** (nebo si jej připrav ke vložení do NotebookLM).
 
-Agent uživatele vyzve: *„Dej mi vědět, jakmile máš oba soubory připravené, a provedeme tě nastavením Google NotebookLM.“*
+Agent uživatele vyzve: *„Dej mi vědět, jakmile máš soubory připravené, a provedeme tě nastavením Google NotebookLM.“*
 
 ---
 
@@ -106,13 +137,15 @@ Jakmile má uživatel soubory připravené, agent mu předloží jednoduchý ná
    - Jdi na [notebooklm.google.com](https://notebooklm.google.com) a přihlas se svým Google účtem (služba je zcela zdarma).
    - Klikni na **Nový zápisník** (New Notebook) a pojmenuj si ho názvem tvého kurzu.
 
-2. **Nahrání základních řídicích souborů:**
+2. **Nahrání řídicích a znalostních souborů:**
    - V levém sloupci u sekce **Zdroje** (Sources) klikni na **Přidat zdroj** (+ Add source).
-   - Nahraj soubor **`user.txt`** (případně zvol *Zkopírovaný text* a vlož obsah profilu).
-   - Nahraj soubor **`curriculum.txt`** (případně zvol *Zkopírovaný text* a vlož osnovu).
-   - Pokud máš vlastní skripta nebo PDF podklady, nahraj je sem také (pokud ne, nevadí).
+   - Nahraj soubor **`user.txt`** (profil studenta).
+   - Nahraj soubor **`curriculum.txt`** (osnova kurzu).
+   - **Pokud proběhla Fáze 1.5:** Nahraj soubor **`research.txt`** (a případné plné přepisy expertních videí).
+   - Pokud máš vlastní skripta nebo PDF podklady, nahraj je sem také.
 
-3. **Klíčový krok: Vyhledání a import zdrojů na webu přímo v NotebookLM:**
+3. **Doplňkový krok: Vyhledání a import zdrojů na webu přímo v NotebookLM:**
+   I když máš nahraný `research.txt`, můžeš sešit ještě více obohatit:
    Pokud nemáš vlastní učebnice nebo chceš, aby měl sešit špičkové podklady:
    - V levém panelu u zdrojů najdeš možnost / ikonku **Vyhledat na webu nové zdroje** (nebo klikni na *Přidat zdroj → Vyhledat na webu*).
    - Zkopíruj **Téma 1 (včetně jeho podtémat)** a vlož ho do vyhledávacího pole.
