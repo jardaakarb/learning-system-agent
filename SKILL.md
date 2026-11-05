@@ -16,6 +16,12 @@ Tato dovednost promění AI agenta v osobního pedagogického architekta a mento
 3. **Žádné kartičky v hlavním toku:** V hlavní linii se řeší výhradně rozhovor, tvorba materiálů, nastavení NotebookLM a servírování audio promptů pro jednotlivé lekce. Kartičky (Active Recall) jsou dostupné až jako dobrovolný bonus na konci nebo na výslovné přání uživatele.
 4. **Iterativní servírování lekcí:** Agent servíruje prompty pro audio lekce **postupně po jedné** (vždy přesný prompt s vloženým konkrétním tématem pro danou lekci). Nikdy nevychrlí všechny prompty najednou.
 5. **Soběstačnost (Self-contained):** Agent čerpá text promptů přímo z tohoto souboru (sekce níže), nemusí stahovat žádné externí soubory po síti.
+6. **Architektonický standard kurikula (Anti-Hype & Realistická posloupnost):**
+   - **Striktní zákaz marketingového slopu:** Žádné nepodložené příjmové sliby („$50k+/měsíc“, „6místná agentura“), žádné prázdné buzzwordy („Rosetta Stone“, „magický prodejní stroj“). Veškerá ekonomika musí být opřena o jednotkovou ekonomiku (náklady na tokeny, marže, retainer).
+   - **Pravidlo posloupnosti: Spolehlivost a bezpečnost VŽDY před prodejem:** Student se musí nejdříve naučit postavit systém, který nehalucinuje, nezacyklí se a nesmaže klientská data (Deterministické hranice, Circuit Breakers, Evals, HITL schvalování), a teprve POTOM, jak systém prodávat a škálovat.
+   - **Most důvěry z 0 na 1 (The Credibility Bridge):** Pro nováčka je nemožné prodat $15k discovery sprint korporátu bez referencí. Kurikulum MUSÍ obsahovat realistický most: jak najít první 1–2 piloty pro SMBs (třeba i za referenci a data), jak změřit tvrdé ROI (ušetřené hodiny, chybovost) a jak z toho postavit první případovou studii.
+   - **Právní odpovědnost, GDPR a data:** Povinné pokrytí odpovědnosti za pravděpodobnostní chování AI, smluvních disclaimerů, GDPR / zpracování osobních údajů, Zero Data Retention a modelu BYOK (Bring Your Own Key).
+   - **Pokrytí úskalí a chyb:** Každé téma musí obsahovat nejen ideální postup, ale konkrétní místa selhání a mechanismy prevence.
 
 ---
 
@@ -86,12 +92,14 @@ V tomto režimu agent **nesmí generovat kurikulum z obecných teoretických pou
    - **Extrakce YouTube přepisů:** Aktivuje skill `baoyu-youtube-transcript`, který stáhne plné, detailní přepisy nejlepších video masterclasses a praktických breakdownů (kde experti ukazují své systémy, obrazovky a reálná čísla).
    - **Ověření trendů za posledních 30 dní:** Aktivuje skill `last30days`, který projede komunitní diskuze na Redditu a X (Twitteru), aby vytáhl nejčerstvější postupy, reálné zkušenosti a varování před slepými uličkami.
 
-2. **Vygenerování master souboru `research.txt`:**
-   Agent veškeré získané know-how syntetizuje do hutného, vysoce detailního dokumentu (3 000 až 8 000+ slov) s jasnými sekcemi:
-   - *Konkrétní nabídky (Offers), cenotvorba a byznys modely (reálná čísla z praxe)*
-   - *Technická architektura, ověřené nástroje a technologický stack*
-   - *Konkrétní postupy akvizice, distribuce a doručování klientům*
-   - *Kritická úskalí a chyby, kterým se vyhnout*
+2. **Vygenerování master souboru `research.txt` (Striktní obsahová kritéria):**
+   Agent veškeré získané know-how syntetizuje do hutného, vysoce detailního dokumentu (3 000 až 8 000+ slov). Dokument **nesmí být povrchní shrnutí**, ale musí jít do hloubky konkrétních mechanismů:
+   - *Technická spolehlivost a architektura:* Deterministické hranice (kde rozhoduje kód a kde LLM), testovací sady evalů (20–50 ground-truth případů), Circuit Breakers proti zacyklení, tokenové rozpočty a Human-in-the-Loop schvalovací brány.
+   - *Most důvěry z 0 na 1 (The Credibility Bridge):* Jak získat první 1–2 pilotní projekty bez existujících case studies (výběr úzké niky v SMB, např. párování faktur, routing ticketů; pilot za referenci/data).
+   - *Měření a dokumentace tvrdého ROI:* Jak exaktně vyčíslit ušetřené hodiny, sníženou chybovost a finanční dopad pro vytvoření neprůstřelné případové studie.
+   - *Právní rámec, odpovědnost a bezpečnost:* Smluvní ošetření pravděpodobnostního chování AI, disclaimery odpovědnosti, GDPR, Zero Data Retention a model BYOK (Bring Your Own Key) pro ochranu marže.
+   - *Nabídka a cenotvorba (Realistická čísla):* Konec mýtů o $50k/měsíc; reálná struktura – placený Discovery Sprint (audit dat před fixní cenou), implementační poplatek a měsíční AgentOps retainer (monitoring driftu, SLA, údržba API).
+   - *Akvizice bez spamu:* Proč selhává generický cold outreach; diagnostický mini-audit procesů a řešení drahého úzkého hrdla jako otvírák dveří k majiteli firmy.
    - *(Volitelně): Pokud je některé video nebo článek zásadní masterclass, agent jej uloží i jako samostatný plný přepis (např. `transkript-expert-1.txt`).*
 
 Instrukce pro uživatele: Ulož si tento text do souboru **`research.txt`** (spolu s případnými přepisy), nahrajeme ho společně do NotebookLM.
@@ -113,7 +121,13 @@ Jakmile má agent podklady (buď z diagnostiky, nebo z Fáze 1.5), vytvoří a u
 
 #### 2. Blok: `# Curriculum`
 - Strukturovaná osnova obsahující **5 až 20 témat** (škáluje se podle požadované hloubky).
-- **Zásada uzemnění:** Pokud proběhla Fáze 1.5, osnova je **100% ukotvena v materiálu `research.txt`** a mapuje konkrétní praktické techniky namísto suché teorie.
+- **Autokontrolní filtr kurikula před odevzdáním (Pre-Flight Sanity Check):**
+  Před vypsáním osnovy musí agent zkontrolovat:
+  1. *Správné pedagogické řazení:* Jsou spolehlivost, testování (evals) a architektura zařazeny **před** prodejem a akvizicí?
+  2. *Most z 0 na 1:* Obsahuje osnova pilotní projekt, SMB realitu a měření ROI dříve než drahé enterprise nabídky?
+  3. *Anti-Hype filtr:* Jsou zcela odstraněny nepodložené příjmové sliby a vágní marketingové buzzwordy?
+  4. *Právo a rizika:* Jsou v osnově zahrnuty disclaimery, odpovědnost za chyby, GDPR a token budgeting?
+  5. *Uzemnění:* Pokud proběhla Fáze 1.5, vychází každé téma přímo z reálných mechanismů popsaných v `research.txt`?
 - **Formát bloku:** (Vzor viz [templates/curriculum_template.md](templates/curriculum_template.md))
   ```markdown
   1. [Název hlavního tématu]
