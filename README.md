@@ -69,13 +69,13 @@ Nemusíte trávit hodiny sháněním učebnic:
 5. 💡 *Poznámka:* Pokud jsou některé zdroje zabarvené **červeně**, vůbec to nevadí a nemusíte to řešit.
 6. 💡 *Tip:* Nemusíte to dělat hned pro všechna témata dopředu – stačí mít stažené zdroje vždy pro to téma, ze kterého chcete právě generovat audio lekci.
 
-### 5. 🎧 Servírování audio lekcí (Lekce po lekci)
+### 5. 🎧 Servírování audio lekcí (Lekce po lekci bez opakování)
 Agent vám naservíruje hotový prompt přímo pro **Lekci 1**:
 - V pravém panelu NotebookLM u **Audio Overview (Audio přehled)** kliknete na **Přizpůsobit (Customize)**.
 - **Zaškrtnete jazyk: Čeština.** Jinak nic neměníte!
 - Vložíte zkopírovaný prompt od agenta a kliknete na **Vygenerovat (Generate)**.
-- Během 2–4 minut vznikne interaktivní podcastová diskuse dvou mentorů, kteří probírají přesně vaše téma, vysvětlují *proč a jak* věci fungují a reagují na vaše konkrétní otázky z profilu.
-- Po poslechu napíšete agentovi: *„Mám hotovo / Dej mi další“*. Agent vám okamžitě připraví **Lekci 2**, která začíná rekapitulací a přirozeně navazuje.
+- Během 2–4 minut vznikne interaktivní podcastová diskuse dvou mentorů nastavená na optimální délku **10 až 15 minut** (žádné úmorné 25minutové monology).
+- 💡 **Trik proti opakování informací:** Až si Lekci 1 doposlechnete, stáhněte si ji (nebo zkopírujte její textový přepis) a nahrajte ji zpět do levého sloupce zdrojů pod názvem `1` (nebo `lekce-1`). Následně napište agentovi *„Mám hotovo / Dej mi další“*. Agent připraví prompt pro Lekci 2, který díky tomu přesně ví, co už bylo řečeno, a nebude opakovat stejné úvodní příklady dokola.
 
 ### 6. 🗂️ Bonus: Active Recall kartičky na vyzkoušení
 Pokud si chcete ověřit, že principům skutečně rozumíte:

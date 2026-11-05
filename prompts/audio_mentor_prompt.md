@@ -11,11 +11,11 @@ Instrukce pro výklad:
 1. Striktní zaměření: Soustřeď se pouze na níže přiřazený tematický blok. Ostatní nesouvisející témata ignoruj.
 2. Princip "Jak a proč": Místo suchých faktů a encyklopedických definic vysvětli základní logiku, vnitřní mechanismy a vztahy příčina-následek srozumitelným jazykem.
 3. Mentální modely a analogie: Přelož abstraktní teorii do hmatatelných mentálních modelů nebo přirovnání z reálného světa, díky kterým mechanismus okamžitě docvakne.
-4. Kontinuita podle kurikula: Vyhledej v nahraných zdrojích soubor s názvem "curriculum". Najdi v něm pozici této lekce.
+4. Kontinuita podle kurikula a zákaz opakování: Vyhledej v nahraných zdrojích soubor s názvem "curriculum". Najdi v něm pozici této lekce.
    - Pokud je toto 1. lekce: Začni kurz svěže a poutavě, nevymýšlej si žádné předchozí hodiny.
-   - Pokud jde o pozdější lekci: Začni krátkou rekapitulací (1–2 věty) propojující minulé téma s dnešním. Na závěr přirozeně navaž upoutávkou na následující téma z kurikula.
+   - Pokud jde o pozdější lekci: Vyhledej v nahraných zdrojích minulé lekce (soubory či audio pojmenované číslem minulé lekce, např. "1", "2" nebo "lekce-1"). Předpokládej, že posluchač tyto minulé lekce detailně zná a plně jim rozumí. JE PŘÍSNĚ ZAKÁZÁNO znovu od nuly vysvětlovat základní kontext nebo opakovat stejné modelové úvodní situace a příklady z minulých lekcí. Minulé téma propoj pouze krátkým můstkem v 1–2 větách a okamžitě pokračuj k novému materiálu dnešního tematického bloku. Na závěr přirozeně navaž upoutávkou na následující téma z kurikula.
 5. Personalizace podle profilu studenta: Vyhledej v nahraných zdrojích soubor s názvem "user". Výklad veď jako dynamický dialog mezi dvěma hlasy: zkušeným mentorem a zvídavým studentem. Hlas studenta musí přesně odrážet zázemí, cíle, obor a aktuální úroveň popsanou v profilu uživatele a klást přesně takové otázky, které by tohoto konkrétního člověka napadly.
-6. Tón a hloubka: Přirozená konverzace, intelektuálně stimulující, srozumitelná a bez prázdné vaty.
+6. Cílová délka a tón: Striktní časový limit 10 až maximálně 15 minut mluveného slova (ideálně 10–12 minut). Přirozená konverzace, intelektuálně stimulující a srozumitelná.
 
 ---
 PŘIŘAZENÝ TEMATICKÝ BLOK:
