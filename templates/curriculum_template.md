@@ -1,24 +1,42 @@
-# Vzorové Kurikulum (Ukládá se jako soubor 'curriculum')
+# Vzorové Kurikulum (ukládá se jako soubor `curriculum.txt`)
 
-Tento soubor představuje pevnou mapu 5 až 20 témat. Podcast i systém se podle něj orientují v postupu kurzem.
+Mapa 5 až 20 modulů. Podcast i systém se podle ní orientují. Každý modul odpovídá jedné lekci a **vychází z cílové schopnosti**, ne ze seznamu témat.
+
+Vzor je z elektrotechniky, aby bylo vidět, že formát je obecný.
 
 ---
 
 ```markdown
 # Curriculum
+Cíl kurzu: Po kurzu umíš navrhnout jištění jednoduché instalace NN a zdůvodnit volbu prvků. Výstup kurzu: Návrh jištění pro zadanou instalaci s odůvodněním u každého prvku.
 
-1. Základní principy elektrických obvodů a poruchové stavy
-    Ohmův zákon a Kirchhoffovy zákony – Vztah napětí, proudu a impedance v reálných sítích
-    Přetížení vs. zkrat – Fyzikální mechanismus vzniku nadproudů a jejich tepelné a dynamické účinky
-    Přechodové odpory a impedance smyčky – Proč odpor vedení rozhoduje o rychlosti odpojení
+1. Poruchové proudy v obvodech
+    Výstupní schopnost: Po lekci umíš určit, jestli jde o přetížení, nebo zkrat, a odhadnout velikost poruchového proudu.
+    Klíčové mechanismy: Ohmův a Kirchhoffovy zákony, impedance smyčky, tepelné a dynamické účinky nadproudů
+    Typická selhání: zanedbání impedance smyčky, záměna přetížení se zkratem
+    Cvičení: Spočítej zkratový proud pro zadanou smyčku a porovnej s vypínací schopností jističe.
+    Opora v balíčku: t01, t02
 
-2. Ochranné prvky v instalacích nízkého napětí (NN)
-    Tavné pojistky – Princip zhášení oblouku, tavná charakteristika a selektivita
-    Jističe – Bimetalová spoušť (nadproud) vs. elektromagnetická spoušť (zkrat)
-    Vypínací charakteristiky B, C, D – Kdy a proč volit konkrétní typ podle charakteru zátěže
+2. Ochranné prvky NN
+    Výstupní schopnost: Po lekci umíš vybrat jistič a charakteristiku podle zátěže.
+    Klíčové mechanismy: bimetalová a elektromagnetická spoušť, charakteristiky B, C, D, selektivita
+    Typická selhání: jistič s příliš „rychlou" charakteristikou u zátěže s rozběhovým proudem
+    Cvičení: Pro tři zátěže vyber charakteristiku a zdůvodni ji.
+    Opora v balíčku: t03, t04
 
-3. Ochrana před úrazem elektrickým proudem a proudové chrániče (RCD)
-    Dotyková napětí a mezní bezpečné hodnoty – Působení střídavého proudu na lidský organismus
-    Součtový transformátor proudu – Fyzikální princip detekce reziduálního unikajícího proudu
-    Rozdělení sítě TN-C na TN-S – Význam vodiče PE a bodu rozdělení pro spolehlivou funkci chrániče
+3. Ochrana před úrazem a proudové chrániče
+    Výstupní schopnost: Po lekci umíš vysvětlit, kdy chránič zafunguje a kdy ne, a proč.
+    Klíčové mechanismy: dotyková napětí, součtový transformátor, rozdělení TN-C na TN-S
+    Typická selhání: chránič za bodem rozdělení zapojený na společný PEN
+    Cvičení: Najdi chybu v zadaném schématu a navrhni opravu.
+    Opora v balíčku: t05, t06
 ```
+
+---
+
+## Pravidla
+
+- Každý modul má **výstupní schopnost** ve tvaru „Po lekci umíš…".
+- Každý modul má **cvičení**, které se dělá rukama, ne jen poslechem.
+- **Opora v balíčku** odkazuje aspoň na dva zdroje. Modul bez opory nepatří do kurikula.
+- Žádný modul nesmí předpokládat znalost, která přijde později.
