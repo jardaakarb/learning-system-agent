@@ -50,18 +50,23 @@ flowchart TD
 ## 🎙️ Verze 3: Batch Audio Studio
 
 Už žádné čekání u webu NotebookLM a ruční přetahování promptů. Skript `scripts/generate_audio_batch.py`:
-1. **Generuje hloubkové scénáře (10–15 min):** 4-aktové dialogy (Pasti & realita → Technický rozbor → Ostrý sparring → Akční krok), cca 1 400 až 2 200 slov na epizodu.
-2. **Živá čeština bez syntetického plechu:** Moderátoři **Petr (hlas: Fenrir)** a **Elena (hlas: Aoede)** mluví přirozenou, lidskou češtinou přes Google Gemini Speech API.
-3. **Automatická kontinuita:** Skript si předává *Continuity Ledger*. Modul 2 navazuje na modul 1 bez opakování základních definic, metafor či vesnických příkladů.
-4. **Okamžitá postprodukce přes FFmpeg:** Vložení mikropauz (350 ms), normalizace a komprese do 192 kbps MP3.
+1. **Organický obsahový dialog (žádná rigidní šablona):** Žádné umělé škatulkování do 4 aktů. Rozhovor plyne přirozeně a věcně podle toho, co je potřeba předat, bez formálních omáček.
+2. **Vestavěný Humanizer anti-slop filtr:** Každá replika před převodem na řeč povinně projde filtrem dovednosti `/humanizer`. Odstraní se chatbotové manýry (úvodní přikyvování, fráze „Není to o X ale o Y", nucené trojice, strojené úvody a AI klišé).
+3. **Dávkování po milnících:** Kurikulum se po prvních reálných konverzacích se zákazníky a praxi přirozeně vyvíjí. Proto je doporučeno generovat po milnících (1–2 lekce), ověřit je v praxi a až poté pokračovat.
+4. **Živá čeština bez syntetického plechu:** Moderátoři **Petr (hlas: Fenrir)** a **Elena (hlas: Aoede)** mluví přirozenou, lidskou češtinou přes Google Gemini Speech API.
+5. **Automatická kontinuita:** Skript si předává *Continuity Ledger*. Další modul navazuje na minulý bez opakování základních definic, metafor či vesnických příkladů.
+6. **Okamžitá postprodukce přes FFmpeg:** Vložení přirozených mikropauz (300 ms), normalizace a komprese do 192 kbps MP3.
 
 ### Použití:
 ```bash
-# Vygenerování celého audio kurzu naráz
-python scripts/generate_audio_batch.py --course-dir kurz-<téma> --duration 12
+# Doporučeno: vygenerování prvního milníku (např. lekce 1 a 2)
+python scripts/generate_audio_batch.py --course-dir kurz-<téma> --modules 1-2
 
-# Vygenerování konkrétního modulu
-python scripts/generate_audio_batch.py --course-dir kurz-<téma> --duration 12 --module 1
+# Vygenerování konkrétní lekce
+python scripts/generate_audio_batch.py --course-dir kurz-<téma> --modules 1
+
+# Vygenerování celého kurzu naráz
+python scripts/generate_audio_batch.py --course-dir kurz-<téma> --duration 12
 ```
 
 ---

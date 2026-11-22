@@ -261,25 +261,28 @@ Jakmile jsou podklady zkompletovány, přejdi k tvorbě audio lekcí. Výchozí 
 
 ### FÁZE 7A: Dávkové studio (V3 Doporučeno)
 
-Plně automatizované generování celé série 10–15 minutových audio lekcí naráz do MP3 přes Google Speech API a lokální FFmpeg.
+Automatizované generování 10–15 minutových audio lekcí přes Google Speech API a lokální FFmpeg s vestavěným **Humanizerem** a **dávkováním po milnících**.
 
-#### Co studio zajišťuje automaticky:
-- **Dvouhlasý podcast:** Dialog mezi **Petrem (hlas: Fenrir)** – zkušeným architektem, a **Elenou (hlas: Aoede)** – bystrou praktičkou a oponentkou.
-- **Hloubka 10–15 minut:** 4-aktová struktura (Pasti & realita → Hloubková architektura → Ostrý sparring & námitky → Exekuční akční krok), cca 1 400 až 2 200 slov na epizodu.
-- **Automatická kontinuita:** Skriptovací engine si mezi moduly předává *Continuity Ledger*. Modul 2 přímo navazuje na modul 1, aniž by znovu vysvětloval základy nebo opakoval minulé metafory a příklady.
-- **Okamžitý export:** Během 2–3 minut vzniknou hotové MP3 soubory v `kurz-<téma>/audio/` a textové transkripty v `kurz-<téma>/transcripts/`.
+#### Co studio zajišťuje:
+- **Organický dialog (žádná rigidní dramaturgie):** Žádné umělé škatulkování do 4 aktů ani vynucené šablony. Forma se plně podřizuje obsahu – cílem je předat podstatu, technické mechanismy a reálné zkušenosti přirozenou konverzací dvou kolegů (Petr a Elena).
+- **Vestavěný Humanizer pass:** Každá replika před syntézou projde filtrem dovednosti `/humanizer`. Odstraní se chatbotové manýry (robotické přikyvování „Máš naprostou pravdu", klišé „Není to o X, ale o Y", nucené trojice, strojené úvody „Pojďme se ponořit", AI slova jako „robustní" či „klíčový").
+- **Dávkování po milnících:** Kurikulum se po prvních reálných konverzacích se zákazníky a praxi přirozeně vyvíjí. Proto je doporučeno generovat lekce **po milnících (např. po 2–3 lekcích)**, ověřit poznatky a až poté vygenerovat další milník.
+- **Automatická kontinuita:** Engine si mezi moduly předává shrnutí již probraného. Žádné opakování metafor, definic ani vesnických příkladů z předchozích dílů.
 
 #### Spuštění studia:
 
 ```bash
-# Vygenerování celého audio kurzu naráz (12 minut na epizodu)
+# Doporučený postup: generování prvního milníku (např. lekce 1 a 2)
+python scripts/generate_audio_batch.py --course-dir kurz-<téma> --modules 1-2
+
+# Vygenerování konkrétní lekce
+python scripts/generate_audio_batch.py --course-dir kurz-<téma> --modules 1
+
+# Vygenerování celého kurzu naráz
 python scripts/generate_audio_batch.py --course-dir kurz-<téma> --duration 12
 
-# Nebo vygenerování pouze konkrétního modulu (např. modul 1)
-python scripts/generate_audio_batch.py --course-dir kurz-<téma> --duration 12 --module 1
-
-# Pouze vygenerování a kontrola textových scénářů (bez syntézy audia)
-python scripts/generate_audio_batch.py --course-dir kurz-<téma> --duration 12 --dry-run-scripts
+# Pouze kontrola vygenerovaných textových scénářů (bez syntézy audia)
+python scripts/generate_audio_batch.py --course-dir kurz-<téma> --modules 1-2 --dry-run-scripts
 ```
 
 > [!TIP]
