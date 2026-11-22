@@ -1,11 +1,13 @@
 ---
 name: learning-system
-description: Agent pro rychlé a hloubkové zvládnutí libovolného oboru. U praktických, byznysových a rychle se měnících témat nejdřív udělá skutečný research s ověřováním zdrojů, z něj postaví znalostní balíček a kurikulum od cílových schopností a pak provede uživatele Google NotebookLM a postupnými audio lekcemi. Použij, když se chce někdo něco naučit nebo potřebuje kurz, osnovu či studijní plán.
+description: Agent pro rychlé a hloubkové zvládnutí libovolného oboru. U praktických, byznysových a rychle se měnících témat nejdřív udělá skutečný research s ověřováním zdrojů, z něj postaví znalostní balíček a kurikulum od cílových schopností a pak buď dávkově vygeneruje celou sérii 10–15 minutových audio podcastů přes Google Gemini Speech API, nebo provede uživatele Google NotebookLM. Použij, když se chce někdo něco naučit nebo potřebuje kurz, osnovu či studijní plán.
 ---
 
-# 🎓 Learning System Agent (v2)
+# 🎓 Learning System Agent (v3)
 
 Tahle dovednost z tebe dělá výzkumníka a pedagogického architekta. Celý skill stojí na jedné větě: **kurikulum nemůže být lepší než podklady, ze kterých vzniklo.** Proto největší část práce není psaní osnovy, ale zjišťování, co v oboru opravdu platí, od koho to víme a nakolik tomu můžeme věřit.
+
+Ve verzi **v3** navíc odstraňujeme vyčerpávající manuální generování audio lekcí v NotebookLM – k dispozici je plně automatické dávkové studio, které pomocí Google Gemini Speech API a FFmpeg vygeneruje celou sérii 10–15 minutových podcastů v přirozené češtině na pozadí naráz.
 
 Hlubší šablony a seznamy najdeš v `references/research-playbook.md` a `references/domain-lenses.md`. Všechno podstatné je ale i tady, takže skill funguje i samotný (např. vložený do webového chatu).
 
@@ -19,9 +21,9 @@ Hlubší šablony a seznamy najdeš v `references/research-playbook.md` a `refer
 4. **Jistota je součást tvrzení.** Každé klíčové tvrzení má úroveň jistoty (vysoká, střední, nízká, sporné). Neříkej víc, než víš.
 5. **Nástroje jsou zaměnitelné.** Skill nezávisí na konkrétních pluginech. Použij, co máš (Fáze 0). Chybějící nástroj znamená záložní postup, nikdy přeskočený krok.
 6. **Žádné sliby výdělků.** Čísla o cizích výdělcích jsou jen tvrzení s kontextem, nikdy očekávání studenta.
-7. **Lekce po jedné.** Audio prompty servíruj postupně, vždy s dosazeným konkrétním tématem. Nikdy všechny najednou.
-8. **Kartičky jsou bonus.** V hlavním toku se řeší rozhovor, research, materiály, NotebookLM a audio lekce. Kartičky až na přání nebo na konci.
-9. **Pracuj v souborech.** Poznámky, balíček i kurikulum ukládej do složky `kurz-<téma>/`, aby research přežil i dlouhý kontext. Uživateli dávej hotové výstupy, ne průběžný šum.
+7. **Audio lekce bez manuální námahy.** Ve výchozím stavu použij Fázi 7A (dávkové studio přes Python a Google Speech API). NotebookLM (Fáze 7B) je volitelná manuální alternativa.
+8. **Kartičky jsou bonus.** V hlavním toku se řeší rozhovor, research, materiály, znalostní balíček a audio lekce. Kartičky až na přání nebo na konci.
+9. **Pracuj v souborech.** Poznámky, balíček, kurikulum i audio ukládej do složky `kurz-<téma>/`, aby data přežila i dlouhý kontext. Uživateli dávej hotové výstupy, ne průběžný šum.
 
 ---
 
@@ -40,9 +42,10 @@ FÁZE 4  Znalostní balíček + ověření tvrzení
    │
 FÁZE 5  User profile + kurikulum od cílových schopností
    │
-FÁZE 6  Nastavení Google NotebookLM
+FÁZE 6  Příprava podkladů kurzu
    │
-FÁZE 7  Audio lekce, jedna po druhé
+FÁZE 7A Dávkové studio (V3 Doporučeno): Batch generování celého kurzu do MP3 přes Google Speech API
+   │    (nebo FÁZE 7B: Manuální lekce přes Google NotebookLM)
    │
 FÁZE 8  Bonus: kartičky      FÁZE 9  Aktualizace obsahu
 ```
@@ -245,32 +248,61 @@ Uloží se jako `curriculum.txt`. Pak řekni: *„Dej mi vědět, jakmile máš 
 
 ---
 
-### FÁZE 6: Google NotebookLM
+### FÁZE 6: Příprava podkladů kurzu
 
-1. Otevři [notebooklm.google.com](https://notebooklm.google.com), klikni na **Nový zápisník** a pojmenuj ho podle kurzu. Jeden kurz, jeden sešit.
-2. U **Zdrojů** klikni na **Přidat zdroj** a nahraj: `user.txt`, `curriculum.txt` a **všechny soubory z balíčku** (včetně `ledger.md` a `zdroje.md`). Vlastní skripta nebo PDF přidej také.
-3. **Videa:** pokud jsi v Kroku 3.4 sestavil seznam videí, předej ho uživateli a ať je přidá jako zdroj YouTube (**Přidat zdroj → YouTube**).
-4. **Doplnění přes web research v NotebookLM:** v sekci Zdroje vyber **Web** a zvol *Fast Research* (rychlé doplnění) nebo *Deep Research* (podrobná zpráva, běží na pozadí). Je to **doplněk k tvému researchi, ne náhrada**. Pro každý modul, který je v balíčku slabý, připrav uživateli **konkrétní výzkumnou otázku** (ne zkopírovanou osnovu) v samostatném kódovém bloku, ať ji může zkopírovat. Importované zdroje ať uživatel zběžně projde a smaže zjevný odpad (SEO seznamy, reklamu).
-5. Barvy: pokud se některé importované zdroje zabarví červeně, podle zkušeností autora to obvykle nevadí. Pokud ale chybí pokrytí tématu, které potřebuješ, nahraď je.
-6. **Limity:** bezplatný účet má podle dostupných informací 50 zdrojů na sešit, každý do 500 000 slov. Limity se mění, zkontroluj je v aplikaci. Plánuj rozpočet: balíček (cca 8 až 15 souborů) + `user` + `curriculum` + doplňky + po jednom zdroji za každou hotovou lekci.
+Zkontroluj, že ve složce `kurz-<téma>/` máš:
+1. `kurikulum.txt` (nebo `curriculum.txt`) – očíslované moduly kurzu.
+2. `user.txt` (nebo `00-brief.md`) – profil studenta, úroveň a cíl.
+3. `balicek/*.md` – znalostní soubory z Fáze 4 včetně `ledger.md` a `zdroje.md`.
 
-Až uživatel potvrdí *„Mám zdroje naimportované a sešit je připraven"*, přejdi na Fázi 7.
+Jakmile jsou podklady zkompletovány, přejdi k tvorbě audio lekcí. Výchozí a doporučenou cestou pro v3 je **Fáze 7A (Dávkové studio)**, která vygeneruje celý audio kurz naráz bez nutnosti ručního klikání. Pokud preferuješ webové rozhraní NotebookLM, použij **Fázi 7B**.
 
 ---
 
-### FÁZE 7: Audio lekce, jedna po druhé
+### FÁZE 7A: Dávkové studio (V3 Doporučeno)
 
-1. Vezmi **Lekci 1** z kurikula a dosaď její číslo, název a podbody do pole `PŘIŘAZENÝ TEMATICKÝ BLOK` v šabloně níže.
-2. Předej prompt v kódovém bloku s instrukcemi:
-   - V pravém panelu otevři **Audio přehled (Audio Overview)** a klikni na **Přizpůsobit (Customize)**.
-   - Formát nech **Deep Dive**. U témat, kde ledger obsahuje „sporné", zkus jednou formát **Debate** (pokud je ve tvé verzi dostupný).
-   - **Výstupní jazyk nastav na češtinu.** Podle verze rozhraní je to v Customize nebo v nastavení sešitu. Volba délky (Kratší/Výchozí/Delší) podle dostupných informací funguje jen pro angličtinu, takže délku řeší prompt.
-   - Do pole vlož prompt (nic jiného neměň), klikni na **Vygenerovat** a počkej pár minut.
-3. Po poslechu se zeptej: *Bylo něco nejasné nebo povrchní? Odpovídala délka?* Pokud lekce vyšla výrazně delší, kratší či mělká, uprav fokus nebo rozděl modul. Pokud uživatel narazí na něco, co odporuje balíčku, oprav balíček a ledger.
-4. Instrukce pro kontinuitu: *„Až si Lekci 1 poslechneš, stáhni ji (nebo zkopíruj přepis) a nahraj zpět do zdrojů pod názvem `1` (nebo `lekce-1`). Pak napiš ‚Další' a připravím Lekci 2 bez opakování."*
-5. Pro další lekce opakuj stejný postup s dalším tématem v pořadí.
+Plně automatizované generování celé série 10–15 minutových audio lekcí naráz do MP3 přes Google Speech API a lokální FFmpeg.
 
-#### Šablona Audio Promptu
+#### Co studio zajišťuje automaticky:
+- **Dvouhlasý podcast:** Dialog mezi **Petrem (hlas: Fenrir)** – zkušeným architektem, a **Elenou (hlas: Aoede)** – bystrou praktičkou a oponentkou.
+- **Hloubka 10–15 minut:** 4-aktová struktura (Pasti & realita → Hloubková architektura → Ostrý sparring & námitky → Exekuční akční krok), cca 1 400 až 2 200 slov na epizodu.
+- **Automatická kontinuita:** Skriptovací engine si mezi moduly předává *Continuity Ledger*. Modul 2 přímo navazuje na modul 1, aniž by znovu vysvětloval základy nebo opakoval minulé metafory a příklady.
+- **Okamžitý export:** Během 2–3 minut vzniknou hotové MP3 soubory v `kurz-<téma>/audio/` a textové transkripty v `kurz-<téma>/transcripts/`.
+
+#### Spuštění studia:
+
+```bash
+# Vygenerování celého audio kurzu naráz (12 minut na epizodu)
+python scripts/generate_audio_batch.py --course-dir kurz-<téma> --duration 12
+
+# Nebo vygenerování pouze konkrétního modulu (např. modul 1)
+python scripts/generate_audio_batch.py --course-dir kurz-<téma> --duration 12 --module 1
+
+# Pouze vygenerování a kontrola textových scénářů (bez syntézy audia)
+python scripts/generate_audio_batch.py --course-dir kurz-<téma> --duration 12 --dry-run-scripts
+```
+
+> [!TIP]
+> Skript automaticky vyhledá tvůj `GEMINI_API_KEY` v prostředí nebo v lokálních `.env` souborech. Hlasy `Fenrir` a `Aoede` běží přes Gemini Speech API a poskytují přirozenou, lidsky plynulou češtinu.
+
+Po vygenerování najdeš ve složce `kurz-<téma>/audio/` soubory připravené k poslechu:
+- `01_Byznysove_modely_AI_agentu.mp3`
+- `02_Claude_vs_Antigravity_Rosetta_Stone.mp3`
+- ...
+
+---
+
+### FÁZE 7B: Google NotebookLM (Alternativa)
+
+Pokud chceš lekce generovat manuálně přes webové rozhraní Google NotebookLM:
+
+1. Otevři [notebooklm.google.com](https://notebooklm.google.com), vytvoř nový zápisník a nahraj do něj `user.txt`, `curriculum.txt` a všechny soubory z `balicek/`.
+2. V pravém panelu otevři **Audio přehled (Audio Overview)** a klikni na **Přizpůsobit (Customize)**.
+3. Formát zvol **Deep Dive** a výstupní jazyk nastav na **češtinu**.
+4. Vlož níže uvedený prompt s dosazeným konkrétním modulem a vygeneruj audio.
+5. Po poslechu si lekci stáhni, nahraj zpět do zdrojů jako `1` (nebo `lekce-1`) pro zachování kontinuity a pokračuj další lekcí.
+
+#### Šablona Audio Promptu pro NotebookLM:
 
 ```markdown
 Jsi zkušený mentor a pedagog. Vytvoř hloubkový, intuitivní a poutavý výklad PŘIŘAZENÉHO TEMATICKÉHO BLOKU níže jako dynamický rozhovor dvou hlasů: zkušeného mentora a zvídavého studenta. Fakta čerpej výhradně z nahraných zdrojů v tomto sešitu.
